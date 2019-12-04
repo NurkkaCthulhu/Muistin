@@ -5,11 +5,11 @@ export default class MuistinNote extends React.Component {
   render() {
     return (
         <View style={styles.note}>
+          {this.props.deleteButton}
           <Text>This is a note lol</Text>
         </View>
       );
   }
-
 }
 
 const styles = StyleSheet.create({
