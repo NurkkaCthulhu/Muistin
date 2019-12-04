@@ -16,7 +16,6 @@ export default class MuistinButton extends React.Component {
 
 const styles = StyleSheet.create({
   button: {
-    flex: 1,
     backgroundColor: '#B3A394',
     alignItems: 'center',
     justifyContent: 'center',
