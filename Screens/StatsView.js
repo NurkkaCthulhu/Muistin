@@ -2,9 +2,6 @@ import React from 'react';
 import { StyleSheet, View, StatusBar, Text } from 'react-native';
 
 export default class NotesView extends React.Component {
-  static navigationOptions = {
-    title: 'Stats',
-  };
 
   render() {
     return (
