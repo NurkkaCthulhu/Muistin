@@ -1,12 +1,30 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, AsyncStorage } from 'react-native';
 
 export default class MuistinNote extends React.Component {
+
+  state = {title: 'title', body: 'This is a note lol'}
+
+  componentDidMount() {
+    console.log(this.props.storageKey)
+    try {
+      AsyncStorage.getItem(this.props.storageKey)
+        .then((value) => {
+          let note = JSON.parse(value)
+          console.log(note)
+          this.setState({title: note.title, body: note.body})
+        }
+        )
+    } catch (error) {
+      console.log('Error while loading! ' + error)
+    }
+  }
+
   render() {
     return (
         <View style={styles.note}>
-          {this.props.deleteButton}
-          <Text>This is a note lol</Text>
+          <Text>{this.state.title}</Text>
+          <Text>{this.state.body}</Text>
         </View>
       );
   }
