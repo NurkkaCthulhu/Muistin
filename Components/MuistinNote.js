@@ -40,6 +40,7 @@ const styles = StyleSheet.create({
     alignItems: 'stretch',
     alignSelf: 'stretch',
     margin: 10,
+    padding: 10,
     borderColor: 'black',
     borderWidth: 3,
   },
