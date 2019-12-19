@@ -32,9 +32,10 @@ export default class NotesView extends React.Component {
       })
 
       helperArray.sort((a,b) => a.key - b.key)
+      let lastKey = helperArray.length > 0 ? helperArray[helperArray.length-1].key : 0
+      lastKey = parseInt(lastKey) + 1
 
-      this.setState({keyNumber: helperArray.length, notes: helperArray})
-
+      this.setState({keyNumber: lastKey, notes: helperArray})
     } catch (error) {
       console.log('Error while asyncing! ' + error)
     }
@@ -47,8 +48,6 @@ export default class NotesView extends React.Component {
     console.log('saving...')
     try {
       AsyncStorage.setItem('key ' + this.state.keyNumber, JSON.stringify(myNote))
-      let newNumber = this.state.keyNumber++
-      this.setState({keyNumber: newNumber})
       this.getAllNotes()
     } catch (error) {
       console.log('Error while saving! ' + error)
@@ -57,7 +56,13 @@ export default class NotesView extends React.Component {
 
   deleteNote = (id) => {
     console.log('should delete' + id)
-    this.setState({deleteMsg: 'In the future I go to trash.'})
+    try {
+      AsyncStorage.removeItem(id)
+      .then((resp) => console.log(resp))
+      this.getAllNotes()
+    } catch (error) {
+      console.log('Error while deleting! ' + error)
+    }
   }
 
   renderNoNotes = () => {
