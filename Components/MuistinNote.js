@@ -11,8 +11,11 @@ export default class MuistinNote extends React.Component {
       AsyncStorage.getItem(this.props.storageKey)
         .then((value) => {
           let note = JSON.parse(value)
-          console.log(note)
-          this.setState({title: note.title, body: note.body})
+          if (note !== null) {
+            this.setState({title: note.title, body: note.body})
+          } else {
+            this.setState({title: 'Error', body: 'Something went wrong; could not load note information.'})
+          }
         }
         )
     } catch (error) {
