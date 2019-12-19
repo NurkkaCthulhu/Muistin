@@ -61,6 +61,7 @@ export default class NotesView extends React.Component {
         <StatusBar hidden/>
         <MuistinButton text={this.state.addMsg} onClick={this.addNote} float={false}/>
         <MuistinNote storageKey="key 0"/>
+        <MuistinButton text='+' onClick={this.addNote} float={true}/>
       </View>
     );
   }
