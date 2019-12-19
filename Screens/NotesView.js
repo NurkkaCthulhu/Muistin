@@ -9,28 +9,40 @@ export default class NotesView extends React.Component {
     title: 'Notes',
   };
 
-  state = {deleteMsg: 'Delete note', addMsg: 'Added', keyNumber: 0}
+  state = {deleteMsg: 'Delete note', addMsg: 'Added', keyNumber: 0, notes: []}
 
   constructor(props) {
     super(props);
-    try {
-      AsyncStorage.getAllKeys()
-        .then((keys) => {this.setState({keyNumber: keys.length})})
-    } catch (error) {
-      console.log('Error while saving! ' + error)
-    }
+    //AsyncStorage.clear();
+    this.getAllNotes()
   }
 
+  getAllNotes = async () => {
+    console.log('getting notes')
+    try {
+      //AsyncStorage.clear();
+      const keys = await AsyncStorage.getAllKeys();
+      const result = await AsyncStorage.multiGet(keys);
+
+      let helperArray = []
+      result.forEach((note) => {
+        let parsedNote = JSON.parse(note[1])
+        helperArray.push(parsedNote)
+      })
+
+      this.setState({keyNumber: helperArray.length, notes: helperArray})
+
+    } catch (error) {
+      console.log('Error while asyncing! ' + error)
+    }
+  }
   addNote = () => {
     console.log('add note')
     this.setState({addMsg: 'I will add notes someday'})
-
     let myNote = new NoteData('Title text', 'This is some data that is in a text file.');
     console.log('saving...')
     try {
-      AsyncStorage.getAllKeys()
-        //.then((keys) => {this.setState({keyNumber: keys.length})})
-        .then(() => AsyncStorage.setItem('key 0', JSON.stringify(myNote)))
+      AsyncStorage.setItem('key ' + this.state.keyNumber, JSON.stringify(myNote))
     } catch (error) {
       console.log('Error while saving! ' + error)
     }
@@ -42,12 +54,12 @@ export default class NotesView extends React.Component {
   }
 
   render() {
-    AsyncStorage.getAllKeys().then((keys) => console.log(keys))
-    console.log('keys: ' + this.state.keyNumber)
+    //AsyncStorage.getAllKeys().then((keys) => console.log(keys))
+    console.log(this.state)
     return (
       <View style={styles.container}>
         <StatusBar hidden/>
-        <MuistinButton text={this.state.addMsg} onClick={this.addNote}/>
+        <MuistinButton text={this.state.addMsg} onClick={this.addNote} float={false}/>
         <MuistinNote storageKey="key 0"/>
       </View>
     );
