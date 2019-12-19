@@ -26,7 +26,7 @@ export default class MuistinNote extends React.Component {
   render() {
     return (
         <View style={styles.note}>
-          <Text>{this.state.title}</Text>
+          <Text style={styles.title}>{this.state.title}</Text>
           <Text>{this.state.body}</Text>
         </View>
       );
@@ -42,5 +42,9 @@ const styles = StyleSheet.create({
     margin: 10,
     borderColor: 'black',
     borderWidth: 3,
+  },
+  title: {
+    fontSize: 19,
+    fontWeight: 'bold',
   },
 });
