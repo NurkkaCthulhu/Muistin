@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, StatusBar, AsyncStorage } from 'react-native';
+import { StyleSheet, View, StatusBar, AsyncStorage, FlatList, Text } from 'react-native';
 import MuistinNote from '../Components/MuistinNote';
 import MuistinButton from '../Components/MuistinButton';
 import NoteData from '../NoteData';
@@ -20,14 +20,13 @@ export default class NotesView extends React.Component {
   getAllNotes = async () => {
     console.log('getting notes')
     try {
-      //AsyncStorage.clear();
       const keys = await AsyncStorage.getAllKeys();
       const result = await AsyncStorage.multiGet(keys);
 
       let helperArray = []
       result.forEach((note) => {
         let parsedNote = JSON.parse(note[1])
-        helperArray.push(parsedNote)
+        helperArray.push({key: note[0], title: parsedNote.title, body: parsedNote.body})
       })
 
       this.setState({keyNumber: helperArray.length, notes: helperArray})
@@ -36,13 +35,17 @@ export default class NotesView extends React.Component {
       console.log('Error while asyncing! ' + error)
     }
   }
+
   addNote = () => {
     console.log('add note')
     this.setState({addMsg: 'I will add notes someday'})
-    let myNote = new NoteData('Title text', 'This is some data that is in a text file.');
+    let myNote = new NoteData('Title text' + this.state.keyNumber, 'This is some data that is in a text file.');
     console.log('saving...')
     try {
       AsyncStorage.setItem('key ' + this.state.keyNumber, JSON.stringify(myNote))
+      let newNumber = this.state.keyNumber++
+      this.setState({keyNumber: newNumber})
+      this.getAllNotes()
     } catch (error) {
       console.log('Error while saving! ' + error)
     }
@@ -53,14 +56,26 @@ export default class NotesView extends React.Component {
     this.setState({deleteMsg: 'In the future I go to trash.'})
   }
 
+  renderNoNotes = () => {
+    return <Text>You have no notes xd</Text>
+  }
+
   render() {
     //AsyncStorage.getAllKeys().then((keys) => console.log(keys))
     console.log(this.state)
     return (
       <View style={styles.container}>
         <StatusBar hidden/>
-        <MuistinButton text={this.state.addMsg} onClick={this.addNote} float={false}/>
-        <MuistinNote storageKey="key 0"/>
+        {this.state.notes.length === 0 ?
+          this.renderNoNotes()
+          :
+          <FlatList
+            data={this.state.notes}
+            renderItem={({item}) =>
+              <MuistinNote title={item.title} body={item.body}/>
+            }
+          />
+        }
         <MuistinButton text='+' onClick={this.addNote} float={true}/>
       </View>
     );
