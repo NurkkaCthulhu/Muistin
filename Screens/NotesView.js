@@ -18,7 +18,7 @@ export default class NotesView extends React.Component {
   }
 
   getAllNotes = async () => {
-    console.log('getting notes')
+    //console.log('getting notes')
     try {
       const keys = await AsyncStorage.getAllKeys();
       const result = await AsyncStorage.multiGet(keys);
@@ -27,7 +27,6 @@ export default class NotesView extends React.Component {
       result.forEach((note) => {
         let parsedNote = JSON.parse(note[1])
         let noteKey = note[0].replace(/[^0-9]/g,'')
-        console.log(noteKey)
         helperArray.push({key: noteKey, title: parsedNote.title, body: parsedNote.body})
       })
 
@@ -71,7 +70,7 @@ export default class NotesView extends React.Component {
 
   render() {
     //AsyncStorage.getAllKeys().then((keys) => console.log(keys))
-    console.log(this.state)
+    //console.log(this.state)
     return (
       <View style={[styles.container, this.state.notes.length === 0 && styles.centered]}>
         <StatusBar hidden/>
