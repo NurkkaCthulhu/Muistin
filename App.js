@@ -2,14 +2,21 @@ import React from 'react';
 import {createAppContainer} from 'react-navigation';
 import {createBottomTabNavigator } from 'react-navigation-tabs';
 import { FontAwesome } from '@expo/vector-icons';
+import { createStackNavigator } from 'react-navigation-stack';
  
 import NotesView from './Screens/NotesView';
 import StatsView from './Screens/StatsView';
+import NewNoteView from './Screens/NewNoteView'
+
+const NoteStack = createStackNavigator({
+  NotesHome: { screen: NotesView },
+  Create: { screen: NewNoteView },
+});
 
 export default createAppContainer(
   createBottomTabNavigator(
-    {
-      Home: { screen: NotesView },
+    { 
+      Notes: { screen: NoteStack },
       Stats: { screen: StatsView },
     },
     {
@@ -17,7 +24,7 @@ export default createAppContainer(
         tabBarIcon: ({ focused, tintColor }) => {
           const { routeName } = navigation.state;
           let iconName;
-          if (routeName === 'Home') {
+          if (routeName === 'Notes') {
             iconName = `pencil-square${focused ? '' : '-o'}`;
           } else if (routeName === 'Stats') {
             iconName = `bar-chart${focused ? '' : '-o'}`;
