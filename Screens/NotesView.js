@@ -44,26 +44,22 @@ export default class NotesView extends React.Component {
     }
   }
 
+  padWithZero = (number) => {
+    let result = number
+    if (number < 10) {
+      result = '0' + result
+    }
+    return result
+  }
+
   getTimeStamp = () => {
     var now = new Date();
-    var date = now.getDate(); //Current Date
-    var month = now.getMonth() + 1; //Current Month
+    var date = this.padWithZero(now.getDate()); //Current Date
+    var month = this.padWithZero((now.getMonth() + 1)); //Current Month
     var year = now.getFullYear(); //Current Year
-    var hours = now.getHours(); //Current Hours
-    var minutes = now.getMinutes(); //Current Minutes
-    var seconds = now.getSeconds(); //Current Seconds
-
-    if (hours < 10) {
-      hours = '0' + hours
-    }
-
-    if (minutes < 10) {
-      minutes =  '0' + minutes
-    }
-
-    if (seconds < 10) {
-      seconds = '0' + seconds
-    }
+    var hours = this.padWithZero(now.getHours()); //Current Hours
+    var minutes = this.padWithZero(now.getMinutes()); //Current Minutes
+    var seconds = this.padWithZero(now.getSeconds()); //Current Seconds
 
     return date + '.' + month + '.' + year + ' ' + hours + ':' + minutes + ':' + seconds
   }
