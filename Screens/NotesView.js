@@ -24,7 +24,7 @@ export default class NotesView extends React.Component {
       //const clear = await AsyncStorage.clear();
       const keys = await AsyncStorage.getAllKeys();
 
-      console.log('keys: ' + keys)
+      console.log('notes: ' + keys)
       const result = await AsyncStorage.multiGet(keys);
 
       let helperArray = []
@@ -71,7 +71,7 @@ export default class NotesView extends React.Component {
     let myNote = new NoteData('Title text' + this.state.keyNumber, 'This is some data that is in a text file.', timeStamp);
     console.log('saving...')
     try {
-      AsyncStorage.setItem('key ' + this.state.keyNumber, JSON.stringify(myNote))
+      AsyncStorage.setItem('note ' + this.state.keyNumber, JSON.stringify(myNote))
       this.getAllNotes()
     } catch (error) {
       console.log('Error while saving! ' + error)
@@ -110,7 +110,7 @@ export default class NotesView extends React.Component {
           <FlatList
             data={this.state.notes}
             renderItem={({item}) =>
-              <MuistinNote deletingKey={'key ' + item.key} title={item.title} body={item.body} timeStamp={item.timeStamp} deletingFunc={this.deleteNote}/>
+              <MuistinNote deletingKey={'note ' + item.key} title={item.title} body={item.body} timeStamp={item.timeStamp} deletingFunc={this.deleteNote}/>
             }
           />
         }
