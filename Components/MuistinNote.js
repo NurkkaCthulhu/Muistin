@@ -4,7 +4,7 @@ import MuistinButton from './MuistinButton';
 
 export default class MuistinNote extends React.Component {
 
-  state = {title: 'title', body: 'This is a note lol'}
+  state = {title: 'title', body: 'This is a note lol', timeStamp: '1.1.2000 12:00:00'}
 
   confirmDelete = () => {
     Alert.alert(
@@ -22,6 +22,7 @@ export default class MuistinNote extends React.Component {
     return (
         <View style={styles.note}>
           <Text style={styles.title}>{this.props.title}</Text>
+          <Text>{this.props.timeStamp}</Text>
           <Text>{this.props.body}</Text>
           <MuistinButton text='Remove' onClick={this.confirmDelete}/>
         </View>
