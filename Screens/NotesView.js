@@ -44,31 +44,7 @@ export default class NotesView extends React.Component {
     }
   }
 
-  padWithZero = (number) => {
-    let result = number
-    if (number < 10) {
-      result = '0' + result
-    }
-    return result
-  }
-
-  getTimeStamp = () => {
-    var now = new Date();
-    var date = this.padWithZero(now.getDate()); //Current Date
-    var month = this.padWithZero((now.getMonth() + 1)); //Current Month
-    var year = now.getFullYear(); //Current Year
-    var hours = this.padWithZero(now.getHours()); //Current Hours
-    var minutes = this.padWithZero(now.getMinutes()); //Current Minutes
-    var seconds = this.padWithZero(now.getSeconds()); //Current Seconds
-
-    return date + '.' + month + '.' + year + ' ' + hours + ':' + minutes + ':' + seconds
-  }
-
-  addNote = () => {
-    console.log('add note')
-    this.setState({addMsg: 'I will add notes someday'})
-    let timeStamp = this.getTimeStamp()
-    let myNote = new NoteData('Title text' + this.state.keyNumber, 'This is some data that is in a text file.', timeStamp);
+  addNote = (myNote) => {
     console.log('saving...')
     try {
       AsyncStorage.setItem('note ' + this.state.keyNumber, JSON.stringify(myNote))
@@ -79,8 +55,8 @@ export default class NotesView extends React.Component {
   }
 
   navigateToNewNoteView = () => {
-    this.addNote();
-    this.props.navigation.navigate('Create')
+    //this.addNote();
+    this.props.navigation.navigate('Create', {add: this.addNote})
   }
 
   deleteNote = (id) => {
