@@ -5,9 +5,10 @@ import MuistinButton from '../Components/MuistinButton';
 import NoteData from '../NoteData';
 
 export default class NotesView extends React.Component {
+
   static navigationOptions = {
-    title: 'Notes',
-  };
+    header: null,
+  }
 
   state = {deleteMsg: 'Delete note', addMsg: 'Added', keyNumber: 0, notes: []}
 
@@ -53,6 +54,10 @@ export default class NotesView extends React.Component {
     }
   }
 
+  navigateToNewNoteView = () => {
+    this.props.navigation.navigate('Create')
+  }
+
   deleteNote = (id) => {
     console.log('should delete' + id)
     try {
@@ -84,7 +89,7 @@ export default class NotesView extends React.Component {
             }
           />
         }
-        <MuistinButton text='+' onClick={this.addNote} float={true}/>
+        <MuistinButton text='+' onClick={this.navigateToNewNoteView} float={true}/>
       </View>
     );
   }
