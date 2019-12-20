@@ -14,21 +14,24 @@ export default class NotesView extends React.Component {
 
   constructor(props) {
     super(props);
-    //AsyncStorage.clear();
+    
     this.getAllNotes()
   }
 
   getAllNotes = async () => {
     //console.log('getting notes')
     try {
+      //const clear = await AsyncStorage.clear();
       const keys = await AsyncStorage.getAllKeys();
+
+      console.log('keys: ' + keys)
       const result = await AsyncStorage.multiGet(keys);
 
       let helperArray = []
       result.forEach((note) => {
         let parsedNote = JSON.parse(note[1])
         let noteKey = note[0].replace(/[^0-9]/g,'')
-        helperArray.push({key: noteKey, title: parsedNote.title, body: parsedNote.body})
+        helperArray.push({key: noteKey, title: parsedNote.title, body: parsedNote.body, timeStamp: parsedNote.timeStamp})
       })
 
       helperArray.sort((a,b) => a.key - b.key)
@@ -41,10 +44,35 @@ export default class NotesView extends React.Component {
     }
   }
 
+  getTimeStamp = () => {
+    var now = new Date();
+    var date = now.getDate(); //Current Date
+    var month = now.getMonth() + 1; //Current Month
+    var year = now.getFullYear(); //Current Year
+    var hours = now.getHours(); //Current Hours
+    var minutes = now.getMinutes(); //Current Minutes
+    var seconds = now.getSeconds(); //Current Seconds
+
+    if (hours < 10) {
+      hours = '0' + hours
+    }
+
+    if (minutes < 10) {
+      minutes =  '0' + minutes
+    }
+
+    if (seconds < 10) {
+      seconds = '0' + seconds
+    }
+
+    return date + '.' + month + '.' + year + ' ' + hours + ':' + minutes + ':' + seconds
+  }
+
   addNote = () => {
     console.log('add note')
     this.setState({addMsg: 'I will add notes someday'})
-    let myNote = new NoteData('Title text' + this.state.keyNumber, 'This is some data that is in a text file.');
+    let timeStamp = this.getTimeStamp()
+    let myNote = new NoteData('Title text' + this.state.keyNumber, 'This is some data that is in a text file.', timeStamp);
     console.log('saving...')
     try {
       AsyncStorage.setItem('key ' + this.state.keyNumber, JSON.stringify(myNote))
@@ -55,6 +83,7 @@ export default class NotesView extends React.Component {
   }
 
   navigateToNewNoteView = () => {
+    this.addNote();
     this.props.navigation.navigate('Create')
   }
 
@@ -85,7 +114,7 @@ export default class NotesView extends React.Component {
           <FlatList
             data={this.state.notes}
             renderItem={({item}) =>
-              <MuistinNote deletingKey={'key ' + item.key} title={item.title} body={item.body} deletingFunc={this.deleteNote}/>
+              <MuistinNote deletingKey={'key ' + item.key} title={item.title} body={item.body} timeStamp={item.timeStamp} deletingFunc={this.deleteNote}/>
             }
           />
         }
