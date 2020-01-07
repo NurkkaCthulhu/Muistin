@@ -54,6 +54,16 @@ export default class NotesView extends React.Component {
     }
   }
 
+  saveEditedNote = (myNote, id) => {
+    console.log('juu tallenna joo')
+    try {
+      AsyncStorage.setItem(id, JSON.stringify(myNote))
+      this.getAllNotes()
+    } catch (error) {
+      console.log('Error while saving! ' + error)
+    }
+  }
+
   navigateToNewNoteView = () => {
     //this.addNote();
     this.props.navigation.navigate('Create', {add: this.addNote})
