@@ -117,8 +117,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   nonotesImg: {
-    width: 100,
-    height: 125,
+    height: 200,
+    width: 160,
+    resizeMode: 'contain',
   },
   nonotesText: {
     paddingLeft: 40,
