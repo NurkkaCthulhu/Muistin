@@ -6,7 +6,7 @@ import NoteData from '../NoteData';
 export default class NewNoteView extends React.Component {
 
   static navigationOptions = {
-    title: 'Create a new note',
+    title: 'Back to notes',
   }
 
   constructor(props) {
