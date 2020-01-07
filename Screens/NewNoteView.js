@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, StatusBar, Text, TextInput } from 'react-native';
+import { StyleSheet, View, StatusBar, Text, TextInput, Alert } from 'react-native';
 import MuistinButton from '../Components/MuistinButton';
 import NoteData from '../NoteData';
 
@@ -37,17 +37,25 @@ export default class NewNoteView extends React.Component {
 
   saveNote = () => {
     let timeStamp = this.getTimeStamp()
-    let myNote;
-    if (this.state.title === '' || this.state.body === '') {
-      myNote = new NoteData('Title text', 'This is some data that is in a text file.', timeStamp);
-    } else {
-      myNote = new NoteData(this.state.title, this.state.body, timeStamp);
-    }
-
-    //let myNote = new NoteData('Title text', 'This is some data that is in a text file.', timeStamp);
-
+    let myNote = new NoteData(this.state.title, this.state.body, timeStamp)
     this.props.navigation.state.params.add(myNote)
     this.props.navigation.navigate('NotesHome')
+  }
+
+  confirmSave = () => {
+    if (this.state.title === '' || this.state.body === '') {
+      Alert.alert(
+        'Save incomplete note',
+        'Are you sure you want to save this note?',
+        [
+          {text: 'OK', onPress: () => this.saveNote()},
+          {text: 'Cancel', onPress: () => console.log('canceled'), style: 'cancel'}
+        ],
+        {cancelable: false},
+      )
+    } else {
+      this.saveNote()
+    }
   }
 
 
@@ -68,7 +76,7 @@ export default class NewNoteView extends React.Component {
           onChangeText={(body) => this.setState({body})}
           value={this.state.body}
         />
-        <MuistinButton text='ADD NOTE' onClick={this.saveNote} float={false}/>
+        <MuistinButton text='ADD NOTE' onClick={this.confirmSave} float={false}/>
       </View>
     );
   }
