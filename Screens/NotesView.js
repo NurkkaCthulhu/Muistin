@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, StatusBar, AsyncStorage, FlatList, Text } from 'react-native';
+import { StyleSheet, View, StatusBar, AsyncStorage, FlatList, Text, Image } from 'react-native';
 import MuistinNote from '../Components/MuistinNote';
 import MuistinButton from '../Components/MuistinButton';
 import NoteData from '../NoteData';
@@ -71,8 +71,13 @@ export default class NotesView extends React.Component {
   }
 
   renderNoNotes = () => {
-    return <Text>You have no notes xd</Text>
-  }
+    return (
+      <View style={styles.nonotesView}>
+        <Image source={require('../Images/nonotes_light.png')} style={styles.nonotesImg}/>
+        <Text style={styles.nonotesText}>You have no notes. Add some with the green +-button in the lower right corner.</Text>
+      </View>
+    )
+  } 
 
   render() {
     //AsyncStorage.getAllKeys().then((keys) => console.log(keys))
@@ -105,5 +110,18 @@ const styles = StyleSheet.create({
   },
   centered: {
     alignItems: 'center',
-  }
+  },
+  nonotesView: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  nonotesImg: {
+    width: 100,
+    height: 125,
+  },
+  nonotesText: {
+    paddingLeft: 40,
+    paddingRight: 40,
+  },
 });
