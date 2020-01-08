@@ -54,6 +54,18 @@ export default class NotesView extends React.Component {
     return notesPerHour
   }
 
+  findHowManyDone = () => {
+    let result = 0
+
+    for (let note of this.state.notes) {
+      if (note.done === 1) {
+        result++
+      }
+    }
+
+    return result
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -62,8 +74,8 @@ export default class NotesView extends React.Component {
         />
         <StatusBar hidden/>
         <Text style={styles.title}>Epic stats</Text>
-        <Text>You have currently this many notes: {this.state.notes.length}</Text>
-        <Text>Notes marked as done: {this.state.notes.length}</Text>
+        <Text>You have currently {this.state.notes.length} notes.</Text>
+        <Text>Notes marked as done: {this.findHowManyDone()}</Text>
         <Text>Notes per hour: {this.state.hourData}</Text>
       </View>
     );
