@@ -7,7 +7,8 @@ export default class MuistinButton extends React.Component {
         <TouchableOpacity
           style={[styles.button,
                   this.props.float ? styles.floating : styles.buttonPadding,
-                  this.props.delete && styles.deleteButton]
+                  this.props.delete && styles.deleteButton,
+                  this.props.done && styles.doneButton]
                 }
           onPress={() => this.props.onClick()}>
             <Text style={styles.text}>{this.props.text}</Text>
@@ -42,6 +43,9 @@ const styles = StyleSheet.create({
   },
   deleteButton: {
     backgroundColor: '#b40e1e',
+  },
+  doneButton: {
+    backgroundColor: '#68A357',
   },
   text: {
     color: 'white',
