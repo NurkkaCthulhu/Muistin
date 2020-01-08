@@ -66,6 +66,19 @@ export default class NotesView extends React.Component {
     return result
   }
 
+  renderRow = (text1, text2, title) => {
+    return (
+      <View style={[styles.tableRow, title && styles.tableTitleRow]}>
+        <View style={styles.tableColumn}>
+          <Text style={[styles.tableColumnText, title && styles.tableTitleText]}>{text1}</Text>
+        </View>
+        <View style={styles.tableColumn}>
+          <Text style={[styles.tableColumnText, title && styles.tableTitleText]}>{text2}</Text>
+        </View>
+      </View>
+    )
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -76,7 +89,17 @@ export default class NotesView extends React.Component {
         <Text style={styles.title}>Epic stats</Text>
         <Text>You have currently {this.state.notes.length} notes.</Text>
         <Text>Notes marked as done: {this.findHowManyDone()}</Text>
-        <Text>Notes per hour: {this.state.hourData}</Text>
+
+        <Text style={{marginTop: 10, marginBottom: 2}}>Notes made per 3 hours</Text>
+        {this.renderRow('Time', 'Number of notes', true)}
+        {this.renderRow('00-03', this.state.hourData[0], false)}
+        {this.renderRow('03-06', this.state.hourData[1], false)}
+        {this.renderRow('06-09', this.state.hourData[2], false)}
+        {this.renderRow('09-12', this.state.hourData[3], false)}
+        {this.renderRow('12-15', this.state.hourData[4], false)}
+        {this.renderRow('15-18', this.state.hourData[5], false)}
+        {this.renderRow('18-21', this.state.hourData[6], false)}
+        {this.renderRow('21-00', this.state.hourData[7], false)}
       </View>
     );
   }
@@ -93,4 +116,28 @@ const styles = StyleSheet.create({
     fontSize: 30,
     fontWeight: 'bold',
   },
+  tableRow: {
+    alignSelf: 'stretch',
+    flexDirection: 'row',
+    marginLeft: 10,
+    marginRight: 10,
+
+  },
+  tableColumn: {
+    flex: 1,
+    alignSelf: 'stretch',
+    paddingLeft: 5,
+    borderColor: '#262322',
+    borderWidth: 1,
+  },
+  tableTitleText: {
+    fontWeight: 'bold',
+    color: '#3A2E39',
+  },
+  tableColumnText: {
+    alignSelf: 'center',
+  },
+  tableTitleRow: {
+    backgroundColor: '#F5F0F6',
+  }
 });
