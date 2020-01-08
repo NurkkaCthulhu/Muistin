@@ -25,9 +25,9 @@ export default createAppContainer(
           const { routeName } = navigation.state;
           let iconName;
           if (routeName === 'Notes') {
-            iconName = `pencil-square${focused ? '' : '-o'}`;
+            iconName = `pencil-square-o`;
           } else if (routeName === 'Stats') {
-            iconName = `bar-chart${focused ? '' : '-o'}`;
+            iconName = `info-circle`;
           }
           return <FontAwesome name={iconName} size={25} color={tintColor} />;
         },
