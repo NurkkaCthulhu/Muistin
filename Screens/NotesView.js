@@ -55,7 +55,6 @@ export default class NotesView extends React.Component {
   }
 
   saveEditedNote = (myNote, id) => {
-    console.log('juu tallenna joo')
     try {
       AsyncStorage.setItem(id, JSON.stringify(myNote))
       this.getAllNotes()
@@ -64,9 +63,10 @@ export default class NotesView extends React.Component {
     }
   }
 
-  navigateToNewNoteView = () => {
+  navigateToNewNoteView = (noteId, title, body) => {
+    console.log('noteID::::' + noteId)
     //this.addNote();
-    this.props.navigation.navigate('Create', {add: this.addNote})
+    this.props.navigation.navigate('Create', {add: this.addNote, save: this.saveEditedNote, id: noteId, title: title, body: body})
   }
 
   deleteNote = (id) => {
@@ -101,7 +101,12 @@ export default class NotesView extends React.Component {
           <FlatList
             data={this.state.notes}
             renderItem={({item}) =>
-              <MuistinNote deletingKey={'note ' + item.key} title={item.title} body={item.body} timeStamp={item.timeStamp} deletingFunc={this.deleteNote}/>
+              <MuistinNote deletingKey={'note ' + item.key}
+                           title={item.title}
+                           body={item.body}
+                           timeStamp={item.timeStamp}
+                           deletingFunc={this.deleteNote}
+                           editingFunc={() => this.navigateToNewNoteView('note ' + item.key, item.title, item.body)}/>
             }
           />
         }

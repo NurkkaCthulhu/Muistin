@@ -11,9 +11,14 @@ export default class NewNoteView extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {title : '', body: ''}
+    console.log('ollaa new notes ' + this.props.navigation.state.params.id)
+    if (this.props.navigation.state.params.id !== undefined) {
+      console.log('wanha note home')
+      this.state = {title : this.props.navigation.state.params.title, body: this.props.navigation.state.params.body}
+    } else {
+      this.state = {title : '', body: ''}
+    }
   }
-
 
   padWithZero = (number) => {
     let result = number
@@ -38,7 +43,15 @@ export default class NewNoteView extends React.Component {
   saveNote = () => {
     let timeStamp = this.getTimeStamp()
     let myNote = new NoteData(this.state.title, this.state.body, timeStamp)
-    this.props.navigation.state.params.add(myNote)
+
+    if (this.props.navigation.state.params.id !== undefined) {
+      console.log('tallenna vanha')
+      this.props.navigation.state.params.save(myNote, this.props.navigation.state.params.id)
+    } else {
+      console.log('tallenna uus')
+      this.props.navigation.state.params.add(myNote)
+    }
+
     this.props.navigation.navigate('NotesHome')
   }
 
@@ -81,7 +94,7 @@ export default class NewNoteView extends React.Component {
           onChangeText={(body) => this.setState({body})}
           value={this.state.body}
         />
-        <MuistinButton text='ADD NOTE' onClick={this.confirmSave} float={false}/>
+        <MuistinButton text={this.props.navigation.state.params.id !== undefined ? 'SAVE' : 'ADD NOTE'} onClick={this.confirmSave} float={false}/>
       </View>
     );
   }

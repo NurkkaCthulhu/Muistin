@@ -26,7 +26,7 @@ export default class MuistinNote extends React.Component {
           <Text style={styles.body}>{this.props.body}</Text>
 
           <View style={styles.buttons}>
-            <MuistinButton text='Edit' onClick={this.confirmDelete}/>
+            <MuistinButton text='Edit' onClick={this.props.editingFunc}/>
             <MuistinButton text='Delete' onClick={this.confirmDelete} delete={true}/>
           </View>
 
