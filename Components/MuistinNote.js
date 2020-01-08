@@ -22,8 +22,8 @@ export default class MuistinNote extends React.Component {
     return (
         <View style={styles.note}>
           <Text style={styles.title}>{this.props.title}</Text>
-          <Text>{this.props.timeStamp}</Text>
-          <Text>{this.props.body}</Text>
+          <Text style={styles.timestamp}>{this.props.timeStamp}</Text>
+          <Text style={styles.body}>{this.props.body}</Text>
 
           <View style={styles.buttons}>
             <MuistinButton text='Edit' onClick={this.confirmDelete}/>
@@ -43,14 +43,22 @@ const styles = StyleSheet.create({
     alignSelf: 'stretch',
     margin: 10,
     padding: 10,
-    borderColor: 'black',
-    borderWidth: 3,
+    borderColor: '#262322',
+    borderWidth: 1,
+  },
+  timestamp: {
+    margin: 1,
+    fontStyle: 'italic',
   },
   title: {
     fontSize: 19,
     fontWeight: 'bold',
   },
+  body: {
+    fontSize: 15,
+  },
   buttons: {
+    marginTop: 10,
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
