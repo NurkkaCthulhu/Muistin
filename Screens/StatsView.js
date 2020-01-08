@@ -4,14 +4,27 @@ import { NavigationEvents } from 'react-navigation';
 
 export default class NotesView extends React.Component {
 
-  state = {keyNumber: 0}
+  state = {notes: []}
 
   getAllNotes = async () => {
+    //console.log('getting notes')
     try {
-      AsyncStorage.getAllKeys()
-        .then(keys => this.setState({keyNumber: keys.length}))
+      //const clear = await AsyncStorage.clear();
+      const keys = await AsyncStorage.getAllKeys();
+
+      console.log('notes: ' + keys)
+      const result = await AsyncStorage.multiGet(keys);
+
+      let helperArray = []
+      result.forEach((note) => {
+        let parsedNote = JSON.parse(note[1])
+        let noteKey = note[0].replace(/[^0-9]/g,'')
+        helperArray.push({key: noteKey, note: parsedNote})
+      })
+
+      this.setState({notes: helperArray})
     } catch (error) {
-      console.log('Error while getting notes in Stats tab!' + error)
+      console.log('Error while asyncing! ' + error)
     }
   }
 
@@ -22,7 +35,8 @@ export default class NotesView extends React.Component {
           onWillFocus={() => this.getAllNotes()}
         />
         <StatusBar hidden/>
-        <Text>You have currently this many notes: {this.state.keyNumber}</Text>
+        <Text style={styles.title}>Epic stats</Text>
+        <Text>You have currently this many notes: {this.state.notes.length}</Text>
       </View>
     );
   }
@@ -34,5 +48,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  title: {
+    fontSize: 30,
+    fontWeight: 'bold',
   },
 });
