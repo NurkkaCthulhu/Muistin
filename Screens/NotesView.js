@@ -34,10 +34,11 @@ export default class NotesView extends React.Component {
         helperArray.push({key: noteKey, title: parsedNote.title, body: parsedNote.body, timeStamp: parsedNote.timeStamp, done: parsedNote.done})
       })
 
-      // sort by oldest-> newest and show undone notes first
-      helperArray.sort((a,b) => a.key - b.key).sort((a, b) => a.done - b.done)
+      // sort by oldest-> newest
+      helperArray.sort((a,b) => a.key - b.key)
       let lastKey = helperArray.length > 0 ? helperArray[helperArray.length-1].key : 0
       lastKey = parseInt(lastKey) + 1
+      helperArray.sort((a, b) => a.done - b.done)
 
       this.setState({keyNumber: lastKey, notes: helperArray})
     } catch (error) {
@@ -66,28 +67,19 @@ export default class NotesView extends React.Component {
   }
 
   toggleDone = (myNote, id) => {
-    console.log('noteni on:' + id)
-    console.log(myNote)
+
     if(myNote.done === 0) {
       myNote.done = 1
     } else {
       myNote.done = 0
     }
-    console.log(myNote)
+
     try {
       AsyncStorage.setItem(id, JSON.stringify(myNote))
       this.getAllNotes()
     } catch (error) {
       console.log('Error while saving! ' + error)
     }
-
-/*
-    try {
-      AsyncStorage.setItem(id, JSON.stringify(myNote))
-      this.getAllNotes()
-    } catch (error) {
-      console.log('Error while saving! ' + error)
-    }*/
   }
 
   navigateToNewNoteView = (noteId, title, body, done) => {
@@ -122,6 +114,7 @@ export default class NotesView extends React.Component {
     return (
       <View style={[styles.container, this.state.notes.length === 0 && styles.centered]}>
         <StatusBar hidden/>
+        <Image source={require('../Images/logo.png')} style={styles.logoImg}/>
         {this.state.notes.length === 0 ?
           this.renderNoNotes()
           :
@@ -164,6 +157,13 @@ const styles = StyleSheet.create({
     height: 200,
     width: 160,
     resizeMode: 'contain',
+  },
+  logoImg: {
+    height: 70,
+    width: 255,
+    resizeMode: 'center',
+    alignSelf: 'center',
+    marginTop: 10,
   },
   nonotesText: {
     paddingLeft: 40,
