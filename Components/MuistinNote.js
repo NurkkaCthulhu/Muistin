@@ -21,14 +21,14 @@ export default class MuistinNote extends React.Component {
   render() {
     console.log('done:' + this.props.done)
     return (
-        <View style={styles.note}>
+        <View style={[styles.note, this.props.done===1 && styles.doneNote]}>
           <Text style={[styles.title, this.props.done===1 && styles.greyedFont]}>{this.props.title}</Text>
           <Text style={[styles.timestamp, this.props.done===1 && styles.greyedFont]}> Last edited: {this.props.timeStamp}</Text>
           <Text style={[styles.body, this.props.done===1 && styles.greyedFont]}>{this.props.body}</Text>
 
           <View style={styles.buttons}>
             <MuistinButton text='Edit' onClick={this.props.editingFunc}/>
-            <MuistinButton text='Done' onClick={this.props.toggleDoneFunc} done={true}/>
+            <MuistinButton text={this.props.done===0 ? 'Done' : 'Undone'} onClick={this.props.toggleDoneFunc} done={true}/>
             <MuistinButton text='Delete' onClick={this.confirmDelete} delete={true}/>
           </View>
 
@@ -47,6 +47,9 @@ const styles = StyleSheet.create({
     padding: 10,
     borderColor: '#262322',
     borderWidth: 1,
+  },
+  doneNote: {
+    backgroundColor: '#E8E8E8',
   },
   timestamp: {
     margin: 1,

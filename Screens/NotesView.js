@@ -34,7 +34,8 @@ export default class NotesView extends React.Component {
         helperArray.push({key: noteKey, title: parsedNote.title, body: parsedNote.body, timeStamp: parsedNote.timeStamp, done: parsedNote.done})
       })
 
-      helperArray.sort((a,b) => a.key - b.key)
+      // sort by oldest-> newest and show undone notes first
+      helperArray.sort((a,b) => a.key - b.key).sort((a, b) => a.done - b.done)
       let lastKey = helperArray.length > 0 ? helperArray[helperArray.length-1].key : 0
       lastKey = parseInt(lastKey) + 1
 
