@@ -22,7 +22,7 @@ export default class MuistinNote extends React.Component {
     return (
         <View style={styles.note}>
           <Text style={styles.title}>{this.props.title}</Text>
-          <Text style={styles.timestamp}>{this.props.timeStamp}</Text>
+          <Text style={styles.timestamp}> Last edited: {this.props.timeStamp}</Text>
           <Text style={styles.body}>{this.props.body}</Text>
 
           <View style={styles.buttons}>
