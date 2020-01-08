@@ -7,12 +7,9 @@ export default class NotesView extends React.Component {
   state = {notes: []}
 
   getAllNotes = async () => {
-    //console.log('getting notes')
     try {
-      //const clear = await AsyncStorage.clear();
       const keys = await AsyncStorage.getAllKeys();
 
-      console.log('notes: ' + keys)
       const result = await AsyncStorage.multiGet(keys);
 
       let helperArray = []
