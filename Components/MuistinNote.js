@@ -9,7 +9,7 @@ export default class MuistinNote extends React.Component {
   confirmDelete = () => {
     Alert.alert(
       'Delete note',
-      'Are you sure you want to delete this note?',
+      'Are you sure you want to delete this note? The note cannot be restored.',
       [
         {text: 'OK', onPress: () => this.props.deletingFunc(this.props.deletingKey)},
         {text: 'Cancel', onPress: () => console.log('canceled'), style: 'cancel'}
