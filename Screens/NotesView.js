@@ -31,7 +31,7 @@ export default class NotesView extends React.Component {
       result.forEach((note) => {
         let parsedNote = JSON.parse(note[1])
         let noteKey = note[0].replace(/[^0-9]/g,'')
-        helperArray.push({key: noteKey, title: parsedNote.title, body: parsedNote.body, timeStamp: parsedNote.timeStamp})
+        helperArray.push({key: noteKey, title: parsedNote.title, body: parsedNote.body, timeStamp: parsedNote.timeStamp, done: parsedNote.done})
       })
 
       helperArray.sort((a,b) => a.key - b.key)
@@ -45,6 +45,7 @@ export default class NotesView extends React.Component {
   }
 
   addNote = (myNote) => {
+    console.log(myNote)
     console.log('saving...')
     try {
       AsyncStorage.setItem('note ' + this.state.keyNumber, JSON.stringify(myNote))
@@ -63,10 +64,35 @@ export default class NotesView extends React.Component {
     }
   }
 
-  navigateToNewNoteView = (noteId, title, body) => {
+  toggleDone = (myNote, id) => {
+    console.log('noteni on:' + id)
+    console.log(myNote)
+    if(myNote.done === 0) {
+      myNote.done = 1
+    } else {
+      myNote.done = 0
+    }
+    console.log(myNote)
+    try {
+      AsyncStorage.setItem(id, JSON.stringify(myNote))
+      this.getAllNotes()
+    } catch (error) {
+      console.log('Error while saving! ' + error)
+    }
+
+/*
+    try {
+      AsyncStorage.setItem(id, JSON.stringify(myNote))
+      this.getAllNotes()
+    } catch (error) {
+      console.log('Error while saving! ' + error)
+    }*/
+  }
+
+  navigateToNewNoteView = (noteId, title, body, done) => {
     console.log('noteID::::' + noteId)
     //this.addNote();
-    this.props.navigation.navigate('Create', {add: this.addNote, save: this.saveEditedNote, id: noteId, title: title, body: body})
+    this.props.navigation.navigate('Create', {add: this.addNote, save: this.saveEditedNote, id: noteId, title: title, body: body, done: done})
   }
 
   deleteNote = (id) => {
@@ -104,9 +130,11 @@ export default class NotesView extends React.Component {
               <MuistinNote deletingKey={'note ' + item.key}
                            title={item.title}
                            body={item.body}
+                           done={item.done}
                            timeStamp={item.timeStamp}
                            deletingFunc={this.deleteNote}
-                           editingFunc={() => this.navigateToNewNoteView('note ' + item.key, item.title, item.body)}/>
+                           toggleDoneFunc={() => this.toggleDone(item, 'note ' + item.key)}
+                           editingFunc={() => this.navigateToNewNoteView('note ' + item.key, item.title, item.body, item.done)}/>
             }
           />
         }
