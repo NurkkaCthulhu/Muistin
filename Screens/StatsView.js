@@ -86,7 +86,7 @@ export default class NotesView extends React.Component {
           onWillFocus={() => this.getAllNotes()}
         />
         <StatusBar hidden/>
-        <Text style={styles.title}>Epic stats</Text>
+        <Text style={styles.title}>Statistics</Text>
         <Text>You have currently {this.state.notes.length} notes.</Text>
         <Text>Notes marked as done: {this.findHowManyDone()}</Text>
 
