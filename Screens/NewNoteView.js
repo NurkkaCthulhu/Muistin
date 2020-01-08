@@ -58,21 +58,26 @@ export default class NewNoteView extends React.Component {
     }
   }
 
-
   render() {
     return (
       <View style={styles.container}>
         <StatusBar hidden/>
-        <Text>Create a new note</Text>
+        <Text style={styles.pageTitle}>Create a new note</Text>
+        <Text style={styles.helpText}>Title</Text>
         <TextInput
-          style={{height: 40}}
-          placeholder="Title here"
+          style={styles.textInput}
+          multiline={true}
+          numberOfLines={1}
+          placeholder='Title'
           onChangeText={(title) => this.setState({title})}
           value={this.state.title}
         />
+        <Text style={styles.helpText}>Message</Text>
         <TextInput
-          style={{height: 40}}
-          placeholder="Body here"
+          style={[styles.textInput, styles.bodyInput]}
+          multiline={true}
+          numberOfLines={5}
+          placeholder='Write some text here...'
           onChangeText={(body) => this.setState({body})}
           value={this.state.body}
         />
@@ -85,8 +90,31 @@ export default class NewNoteView extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    flexDirection: 'column',
+    marginLeft: 10,
+    marginRight: 10,
     backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: 'stretch',
+  },
+  pageTitle: {
+    fontSize: 19,
+    fontWeight: 'bold',
+    marginTop: 10,
+    marginBottom: 10,
+  },
+  helpText: {
+    marginBottom: 3,
+    fontSize: 10,
+    fontWeight: 'bold',
+  },
+  textInput: {
+    borderWidth: 1,
+    textAlignVertical: 'top',
+    padding: 5,
+    marginBottom: 10,
+  },
+  bodyInput: {
+    minHeight: 150,
+    height: 'auto',
   },
 });
