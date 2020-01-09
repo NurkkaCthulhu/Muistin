@@ -19,7 +19,6 @@ export default class MuistinNote extends React.Component {
   }
 
   render() {
-    console.log('done:' + this.props.done)
     return (
         <View style={[styles.note, this.props.done===1 && styles.doneNote]}>
           <Text style={[styles.title, this.props.done===1 && styles.greyedFont]}>{this.props.title}</Text>
