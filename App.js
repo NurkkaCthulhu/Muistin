@@ -38,7 +38,7 @@ export default createAppContainer(
       },
     },
     {
-      initialRouteName: 'Home'
+      initialRouteName: 'NotesHome'
     },
   )
 );

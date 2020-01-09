@@ -3,9 +3,7 @@ import { StyleSheet, Text, View, Alert } from 'react-native';
 import MuistinButton from './MuistinButton';
 
 export default class MuistinNote extends React.Component {
-
-  state = {title: 'title', body: 'This is a note lol', timeStamp: '1.1.2000 12:00:00'}
-
+  
   confirmDelete = () => {
     Alert.alert(
       'Delete note',

@@ -2,7 +2,6 @@ import React from 'react';
 import { StyleSheet, View, StatusBar, AsyncStorage, FlatList, Text, Image } from 'react-native';
 import MuistinNote from '../Components/MuistinNote';
 import MuistinButton from '../Components/MuistinButton';
-import NoteData from '../NoteData';
 
 export default class NotesView extends React.Component {
 
