@@ -5,7 +5,11 @@ export default class MuistinButton extends React.Component {
   render() {
     return (
         <TouchableOpacity
-          style={[styles.button, this.props.float && styles.floating]}
+          style={[styles.button,
+                  this.props.float ? styles.floating : styles.buttonPadding,
+                  this.props.delete && styles.deleteButton,
+                  this.props.done && styles.doneButton]
+                }
           onPress={() => this.props.onClick()}>
             <Text style={styles.text}>{this.props.text}</Text>
         </TouchableOpacity>
@@ -15,7 +19,7 @@ export default class MuistinButton extends React.Component {
 
 const styles = StyleSheet.create({
   button: {
-    backgroundColor: '#B3A394',
+    backgroundColor: '#00ABE7',
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 4,
@@ -24,7 +28,7 @@ const styles = StyleSheet.create({
   },
   floating: {
     position: 'absolute',
-    backgroundColor: 'green',
+    backgroundColor: '#13b40e',
     width: 50,
     height: 50,
     alignItems: 'center',
@@ -33,8 +37,18 @@ const styles = StyleSheet.create({
     bottom: 20,
     borderRadius: 40,
   },
+  buttonPadding: {
+    paddingLeft: 20,
+    paddingRight: 20,
+  },
+  deleteButton: {
+    backgroundColor: '#b40e1e',
+  },
+  doneButton: {
+    backgroundColor: '#68A357',
+  },
   text: {
     color: 'white',
-    fontSize: 30,
+    fontSize: 20,
   },
 });

@@ -1,19 +1,24 @@
 import React from 'react';
-import { StyleSheet, View, StatusBar, Text, TextInput } from 'react-native';
+import { StyleSheet, View, StatusBar, Text, TextInput, Alert } from 'react-native';
 import MuistinButton from '../Components/MuistinButton';
 import NoteData from '../NoteData';
 
 export default class NewNoteView extends React.Component {
 
   static navigationOptions = {
-    title: 'Create a new note',
+    title: 'Back to notes',
   }
 
   constructor(props) {
     super(props);
-    this.state = {title : '', body: ''}
+    console.log('ollaa new notes ' + this.props.navigation.state.params.id)
+    if (this.props.navigation.state.params.id !== undefined) {
+      console.log('wanha note home')
+      this.state = {title : this.props.navigation.state.params.title, body: this.props.navigation.state.params.body, done: this.props.navigation.state.params.done}
+    } else {
+      this.state = {title : '', body: '', done: 0}
+    }
   }
-
 
   padWithZero = (number) => {
     let result = number
@@ -37,38 +42,59 @@ export default class NewNoteView extends React.Component {
 
   saveNote = () => {
     let timeStamp = this.getTimeStamp()
-    let myNote;
-    if (this.state.title === '' || this.state.body === '') {
-      myNote = new NoteData('Title text', 'This is some data that is in a text file.', timeStamp);
+    let myNote = new NoteData(this.state.title, this.state.body, timeStamp, this.state.done)
+
+    if (this.props.navigation.state.params.id !== undefined) {
+      console.log('tallenna vanha')
+      this.props.navigation.state.params.save(myNote, this.props.navigation.state.params.id)
     } else {
-      myNote = new NoteData(this.state.title, this.state.body, timeStamp);
+      console.log('tallenna uus')
+      this.props.navigation.state.params.add(myNote)
     }
 
-    //let myNote = new NoteData('Title text', 'This is some data that is in a text file.', timeStamp);
-
-    this.props.navigation.state.params.add(myNote)
     this.props.navigation.navigate('NotesHome')
   }
 
+  confirmSave = () => {
+    if (this.state.title === '' || this.state.body === '') {
+      Alert.alert(
+        'Save incomplete note',
+        'Are you sure you want to save this note?',
+        [
+          {text: 'OK', onPress: () => this.saveNote()},
+          {text: 'Cancel', onPress: () => console.log('canceled'), style: 'cancel'}
+        ],
+        {cancelable: false},
+      )
+    } else {
+      this.saveNote()
+    }
+  }
 
   render() {
     return (
       <View style={styles.container}>
         <StatusBar hidden/>
-        <Text>Create a new note</Text>
+        <Text style={styles.pageTitle}>Create a new note</Text>
+        <Text style={styles.helpText}>Title</Text>
         <TextInput
-          style={{height: 40}}
-          placeholder="Title here"
+          style={styles.textInput}
+          multiline={true}
+          numberOfLines={1}
+          placeholder='Title'
           onChangeText={(title) => this.setState({title})}
           value={this.state.title}
         />
+        <Text style={styles.helpText}>Message</Text>
         <TextInput
-          style={{height: 40}}
-          placeholder="Body here"
+          style={[styles.textInput, styles.bodyInput]}
+          multiline={true}
+          numberOfLines={5}
+          placeholder='Write some text here...'
           onChangeText={(body) => this.setState({body})}
           value={this.state.body}
         />
-        <MuistinButton text='ADD NOTE' onClick={this.saveNote} float={false}/>
+        <MuistinButton text={this.props.navigation.state.params.id !== undefined ? 'SAVE' : 'ADD NOTE'} onClick={this.confirmSave} float={false}/>
       </View>
     );
   }
@@ -77,8 +103,31 @@ export default class NewNoteView extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    flexDirection: 'column',
+    marginLeft: 10,
+    marginRight: 10,
     backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: 'stretch',
+  },
+  pageTitle: {
+    fontSize: 19,
+    fontWeight: 'bold',
+    marginTop: 10,
+    marginBottom: 10,
+  },
+  helpText: {
+    marginBottom: 3,
+    fontSize: 10,
+    fontWeight: 'bold',
+  },
+  textInput: {
+    borderWidth: 1,
+    textAlignVertical: 'top',
+    padding: 5,
+    marginBottom: 10,
+  },
+  bodyInput: {
+    minHeight: 150,
+    height: 'auto',
   },
 });
