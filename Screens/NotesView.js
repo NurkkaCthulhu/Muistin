@@ -19,12 +19,9 @@ export default class NotesView extends React.Component {
   }
 
   getAllNotes = async () => {
-    //console.log('getting notes')
     try {
-      //const clear = await AsyncStorage.clear();
       const keys = await AsyncStorage.getAllKeys();
 
-      console.log('notes: ' + keys)
       const result = await AsyncStorage.multiGet(keys);
 
       let helperArray = []
@@ -45,7 +42,6 @@ export default class NotesView extends React.Component {
   }
 
   addNote = (myNote) => {
-    console.log('saving...')
     try {
       AsyncStorage.setItem('note ' + this.state.keyNumber, JSON.stringify(myNote))
       this.getAllNotes()
@@ -55,12 +51,10 @@ export default class NotesView extends React.Component {
   }
 
   navigateToNewNoteView = () => {
-    //this.addNote();
     this.props.navigation.navigate('Create', {add: this.addNote})
   }
 
   deleteNote = (id) => {
-    console.log('should delete' + id)
     try {
       AsyncStorage.removeItem(id)
       .then((resp) => console.log(resp))
@@ -75,8 +69,6 @@ export default class NotesView extends React.Component {
   }
 
   render() {
-    //AsyncStorage.getAllKeys().then((keys) => console.log(keys))
-    //console.log(this.state)
     return (
       <View style={[styles.container, this.state.notes.length === 0 && styles.centered]}>
         <StatusBar hidden/>
