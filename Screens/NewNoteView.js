@@ -11,9 +11,7 @@ export default class NewNoteView extends React.Component {
 
   constructor(props) {
     super(props);
-    console.log('ollaa new notes ' + this.props.navigation.state.params.id)
     if (this.props.navigation.state.params.id !== undefined) {
-      console.log('wanha note home')
       this.state = {title : this.props.navigation.state.params.title, body: this.props.navigation.state.params.body, done: this.props.navigation.state.params.done}
     } else {
       this.state = {title : '', body: '', done: 0}
@@ -45,10 +43,8 @@ export default class NewNoteView extends React.Component {
     let myNote = new NoteData(this.state.title, this.state.body, timeStamp, this.state.done)
 
     if (this.props.navigation.state.params.id !== undefined) {
-      console.log('tallenna vanha')
       this.props.navigation.state.params.save(myNote, this.props.navigation.state.params.id)
     } else {
-      console.log('tallenna uus')
       this.props.navigation.state.params.add(myNote)
     }
 
